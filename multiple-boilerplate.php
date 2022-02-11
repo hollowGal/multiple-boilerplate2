@@ -23,12 +23,20 @@
 if(!defined('ABSPATH')) exit;
 function multiple_boilerplate_block_init() {
 	$blocks = array(
-		"block1/",
-		"block2/",
-		"block3/"
+		array("block1/",array(
+			"render_callback" => "thisrender"
+		)),
+		array("block2/", array()),
+		array("block3/", array() )
 	);
 	foreach($blocks as $block){
-		register_block_type( plugin_dir_path(__FILE__) . '/include/block-editor/blocks/'.$block );
+
+			register_block_type( plugin_dir_path(__FILE__) . '/include/block-editor/blocks/'.$block[0], $block[1]);
+				
 	}
 }
 add_action( 'init', 'multiple_boilerplate_block_init' );
+
+function thisrender(){
+	return '<p>from rendercallback<p>';
+}
